@@ -1,4 +1,5 @@
 """Poll owner deletes a choice and the edit page should show one fewer."""
+
 from playwright.sync_api import Page, expect
 
 from .conftest import login_via_ui

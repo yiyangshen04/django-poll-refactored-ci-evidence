@@ -1,4 +1,5 @@
 """Render pytest output text as a PNG that looks like a terminal."""
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont

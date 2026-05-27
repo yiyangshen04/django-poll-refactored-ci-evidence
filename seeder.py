@@ -1,9 +1,12 @@
-from polls.models import Choice, Poll, Vote
-from django.contrib.auth.models import User
 import datetime
 import random
 import time
+
+from django.contrib.auth.models import User
 from faker import Faker
+
+from polls.models import Choice, Poll, Vote
+
 fake = Faker()
 
 
@@ -14,24 +17,21 @@ def seed_users(num_entries=10, overwrite=False):
     if overwrite:
         print("Overwriting Users")
         User.objects.all().delete()
-    count = 0
-    for _ in range(num_entries):
+    for count, _ in enumerate(range(num_entries), start=1):
         first_name = fake.first_name()
         last_name = fake.last_name()
-        u = User.objects.create_user(
+        User.objects.create_user(
             first_name=first_name,
             last_name=last_name,
             email=first_name + "." + last_name + "@fakermail.com",
             username=first_name + last_name,
-            password="password"
+            password="password",
         )
-        count += 1
         percent_complete = count / num_entries * 100
         print(
-            "Adding {} new Users: {:.2f}%".format(
-                num_entries, percent_complete),
-            end='\r',
-            flush=True
+            "Adding {} new Users: {:.2f}%".format(num_entries, percent_complete),
+            end="\r",
+            flush=True,
         )
     print()
 
@@ -42,30 +42,24 @@ def seed_polls(num_entries=10, choice_min=2, choice_max=5, overwrite=False):
     Each poll will be seeded with # choices from choice_min to choice_max
     """
     if overwrite:
-        print('Overwriting polls')
+        print("Overwriting polls")
         Poll.objects.all().delete()
     users = list(User.objects.all())
-    count = 0
-    for _ in range(num_entries):
+    for count, _ in enumerate(range(num_entries), start=1):
         p = Poll(
             owner=random.choice(users),
             text=fake.paragraph(),
-            pub_date=datetime.datetime.now()
+            pub_date=datetime.datetime.now(),
         )
         p.save()
         num_choices = random.randrange(choice_min, choice_max + 1)
         for _ in range(num_choices):
-            c = Choice(
-                poll=p,
-                choice_text=fake.sentence()
-            ).save()
-        count += 1
+            Choice(poll=p, choice_text=fake.sentence()).save()
         percent_complete = count / num_entries * 100
         print(
-            "Adding {} new Polls: {:.2f}%".format(
-                num_entries, percent_complete),
-            end='\r',
-            flush=True
+            "Adding {} new Polls: {:.2f}%".format(num_entries, percent_complete),
+            end="\r",
+            flush=True,
         )
     print()
 
@@ -84,18 +78,15 @@ def seed_votes():
     for poll in polls:
         choices = list(poll.choice_set.all())
         for user in users:
-            v = Vote(
-                user=user,
-                poll=poll,
-                choice=random.choice(choices)
-            ).save()
+            Vote(user=user, poll=poll, choice=random.choice(choices)).save()
             count += 1
             percent_complete = count / number_of_new_votes * 100
             print(
                 "Adding {} new votes: {:.2f}%".format(
-                    number_of_new_votes, percent_complete),
-                end='\r',
-                flush=True
+                    number_of_new_votes, percent_complete
+                ),
+                end="\r",
+                flush=True,
             )
     print()
 

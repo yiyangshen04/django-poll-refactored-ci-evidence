@@ -1,4 +1,5 @@
 """Create a new poll with two choices and verify it appears in the list."""
+
 from playwright.sync_api import Page, expect
 
 from .conftest import login_via_ui

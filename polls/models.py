@@ -18,9 +18,7 @@ class Poll(models.Model):
         """
         user_votes = user.vote_set.all()
         qs = user_votes.filter(poll=self)
-        if qs.exists():
-            return False
-        return True
+        return not qs.exists()
 
     @property
     def get_vote_count(self):
@@ -67,10 +65,12 @@ class Vote(models.Model):
         # IntegrityError instead of silently writing two rows.
         constraints = [
             models.UniqueConstraint(
-                fields=('user', 'poll'),
-                name='one_vote_per_user_per_poll',
+                fields=("user", "poll"),
+                name="one_vote_per_user_per_poll",
             ),
         ]
 
     def __str__(self):
-        return f'{self.poll.text[:15]} - {self.choice.choice_text[:15]} - {self.user.username}'
+        poll_text = self.poll.text[:15]
+        choice_text = self.choice.choice_text[:15]
+        return f"{poll_text} - {choice_text} - {self.user.username}"

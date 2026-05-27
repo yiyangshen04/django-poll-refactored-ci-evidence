@@ -1,4 +1,5 @@
 """Render k6 terminal output as PNG screenshots."""
+
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont

@@ -1,4 +1,5 @@
 """Register a new user and immediately log in as them."""
+
 from playwright.sync_api import Page, expect
 
 

@@ -9,10 +9,7 @@ from django.contrib.auth.models import Permission, User
 
 from polls.models import Choice, Poll
 
-
-SCREENSHOTS = (
-    Path(__file__).resolve().parents[2] / "screenshots" / "q5_ui"
-)
+SCREENSHOTS = Path(__file__).resolve().parents[2] / "screenshots" / "q5_ui"
 SCREENSHOTS.mkdir(parents=True, exist_ok=True)
 
 

@@ -29,11 +29,8 @@ class DuplicateVoteIntegrationTest(TestCase):
         self.assertEqual(r2.status_code, 302)
         self.assertEqual(r2.url, reverse("polls:list"))
 
-        with self.assertRaises(IntegrityError):
-            with transaction.atomic():
-                Vote.objects.create(
-                    user=self.alice, poll=self.poll, choice=self.c2
-                )
+        with self.assertRaises(IntegrityError), transaction.atomic():
+            Vote.objects.create(user=self.alice, poll=self.poll, choice=self.c2)
 
         self.assertEqual(
             Vote.objects.filter(user=self.alice, poll=self.poll).count(), 1
@@ -46,22 +43,28 @@ class RegistrationFormIntegrationTest(TestCase):
     URL = "/accounts/register/"
 
     def test_form_creates_user_row_and_rejects_duplicate_username(self):
-        r1 = self.client.post(self.URL, {
-            "username": "alicia",
-            "email": "alicia@example.com",
-            "password1": "secret",
-            "password2": "secret",
-        })
+        r1 = self.client.post(
+            self.URL,
+            {
+                "username": "alicia",
+                "email": "alicia@example.com",
+                "password1": "secret",
+                "password2": "secret",
+            },
+        )
         self.assertEqual(r1.status_code, 302)
         self.assertTrue(User.objects.filter(username="alicia").exists())
 
         before = User.objects.count()
-        r2 = self.client.post(self.URL, {
-            "username": "alicia",
-            "email": "someone-else@example.com",
-            "password1": "secret",
-            "password2": "secret",
-        })
+        r2 = self.client.post(
+            self.URL,
+            {
+                "username": "alicia",
+                "email": "someone-else@example.com",
+                "password1": "secret",
+                "password2": "secret",
+            },
+        )
         self.assertEqual(r2.status_code, 200)
         self.assertEqual(User.objects.count(), before)
         self.assertIn(

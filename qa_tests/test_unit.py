@@ -8,8 +8,8 @@ from accounts.forms import UserRegistrationForm
 from polls.models import Choice, Poll, Vote
 from polls.services import attach_alert_classes, compute_poll_results
 
-
 # --- test doubles --------------------------------------------------------
+
 
 class FakeChoice:
     def __init__(self, text, votes):
@@ -64,19 +64,25 @@ class SpyUser:
 
 # --- tests using doubles -------------------------------------------------
 
+
 class ComputePollResultsTests(SimpleTestCase):
     def test_percentages_match_vote_distribution(self):
-        poll = FakePoll([
-            FakeChoice("Python", 3),
-            FakeChoice("JS", 1),
-            FakeChoice("Rust", 0),
-        ])
+        poll = FakePoll(
+            [
+                FakeChoice("Python", 3),
+                FakeChoice("JS", 1),
+                FakeChoice("Rust", 0),
+            ]
+        )
         results = compute_poll_results(poll)
-        self.assertEqual(results, [
-            {"text": "Python", "num_votes": 3, "percentage": 75.0},
-            {"text": "JS", "num_votes": 1, "percentage": 25.0},
-            {"text": "Rust", "num_votes": 0, "percentage": 0.0},
-        ])
+        self.assertEqual(
+            results,
+            [
+                {"text": "Python", "num_votes": 3, "percentage": 75.0},
+                {"text": "JS", "num_votes": 1, "percentage": 25.0},
+                {"text": "Rust", "num_votes": 0, "percentage": 0.0},
+            ],
+        )
 
     def test_zero_total_votes_returns_zero_percentage(self):
         poll = FakePoll([FakeChoice("A", 0), FakeChoice("B", 0)])
@@ -126,14 +132,17 @@ class UserCanVoteTests(SimpleTestCase):
 
 # --- tests without doubles -----------------------------------------------
 
+
 class PasswordMatchTests(TestCase):
     def test_password_mismatch_attaches_error_to_password2(self):
-        form = UserRegistrationForm(data={
-            "username": "alicia",
-            "email": "alicia@example.com",
-            "password1": "secret",
-            "password2": "different",
-        })
+        form = UserRegistrationForm(
+            data={
+                "username": "alicia",
+                "email": "alicia@example.com",
+                "password1": "secret",
+                "password2": "different",
+            }
+        )
         self.assertFalse(form.is_valid())
         self.assertIn("Password did not match!", form.errors["password2"])
 

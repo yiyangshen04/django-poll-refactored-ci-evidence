@@ -1,4 +1,5 @@
 """Try to vote twice on the same poll: second attempt should be blocked."""
+
 from playwright.sync_api import Page, expect
 
 from polls.models import Vote

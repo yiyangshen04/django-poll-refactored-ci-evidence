@@ -5,6 +5,7 @@ exclude = [
     ".venv",
     "*/migrations/*",
     "db.sqlite3",
+    "uat",
 ]
 
 [tool.ruff.lint]
