@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install dependencies into .venv
+        run: |
+          uv venv .venv
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
+          uv pip install --python .venv/bin/python -r requirements.txt
+          uv pip install --python .venv/bin/python ruff coverage pytest pytest-django pytest-playwright
+
+      - name: Install Playwright Chromium
+        run: playwright install --with-deps chromium
+
+      - name: Ruff lint (Q1)
+        run: ruff check .
+
+      - name: Apply migrations
+        run: python manage.py migrate --no-input
+
+      - name: Unit tests with coverage (Q3)
+        run: |
+          coverage run --source=polls,accounts manage.py test qa_tests.test_unit
+          coverage report
+          coverage html -d reports/htmlcov
+
+      - name: Upload coverage HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: reports/htmlcov/
+
+      - name: Integration tests (Q7)
+        run: python manage.py test qa_tests.test_integration
+
+      - name: Playwright UI tests (Q5)
+        run: pytest qa_tests/ui/ -v
+
+      - name: Upload Playwright screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-screenshots
+          path: screenshots/q5_ui/
+
+      - name: Install k6
+        run: |
+          curl -fsSL https://github.com/grafana/k6/releases/download/v0.55.0/k6-v0.55.0-linux-amd64.tar.gz -o k6.tar.gz
+          tar -xf k6.tar.gz
+          sudo mv k6-v0.55.0-linux-amd64/k6 /usr/local/bin/
+
+      - name: Seed perf data + start dev server
+        run: |
+          python manage.py shell -c "
+          from django.contrib.auth.models import User
+          from polls.models import Poll, Choice
+          u, _ = User.objects.get_or_create(username='perfowner', defaults={'email': 'p@example.com'})
+          p, _ = Poll.objects.get_or_create(id=1, defaults={'owner': u, 'text': 'Best language to learn first?'})
+          if not p.choice_set.exists():
+              for t in ('Python', 'JavaScript', 'Rust'):
+                  Choice.objects.create(poll=p, choice_text=t)
+          "
+          nohup python manage.py runserver 127.0.0.1:8000 --noreload > server.log 2>&1 &
+          sleep 3
+          curl -fsS http://127.0.0.1:8000/polls/1/ -o /dev/null
+
+      - name: k6 load test (Q4)
+        run: k6 run performance/load.js
+
+      - name: Stop dev server
+        if: always()
+        run: pkill -f "manage.py runserver" || true

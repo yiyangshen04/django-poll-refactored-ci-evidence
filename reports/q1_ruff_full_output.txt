@@ -1,0 +1,299 @@
+F401 [*] `django.contrib.admin` imported but unused
+ --> accounts/admin.py:1:28
+  |
+1 | from django.contrib import admin
+  |                            ^^^^^
+2 |
+3 | # Register your models here.
+  |
+help: Remove unused import: `django.contrib.admin`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> accounts/forms.py:1:1
+  |
+1 | / from django import forms
+2 | | from django.contrib.auth import get_user_model
+  | |______________________________________________^
+  |
+help: Organize imports
+
+F401 [*] `django.db.models` imported but unused
+ --> accounts/models.py:1:23
+  |
+1 | from django.db import models
+  |                       ^^^^^^
+2 |
+3 | # Create your models here.
+  |
+help: Remove unused import: `django.db.models`
+
+F401 [*] `django.test.TestCase` imported but unused
+ --> accounts/tests.py:1:25
+  |
+1 | from django.test import TestCase
+  |                         ^^^^^^^^
+2 |
+3 | # Create your tests here.
+  |
+help: Remove unused import: `django.test.TestCase`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> accounts/urls.py:1:1
+  |
+1 | / from django.urls import path
+2 | | from . import views
+  | |___________________^
+3 |
+4 |   app_name = "accounts"
+  |
+help: Organize imports
+
+W292 [*] No newline at end of file
+  --> accounts/urls.py:10:2
+   |
+ 8 |     path('logout/', views.logout_user, name='logout'),
+ 9 |     path('register/', views.create_user, name='register'),
+10 | ]
+   |  ^
+   |
+help: Add trailing newline
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> accounts/views.py:1:1
+  |
+1 | / from django.contrib.auth import authenticate, login, logout
+2 | | from django.shortcuts import render, redirect
+3 | | from django.contrib import messages
+4 | |
+5 | | from pollme.messages import SUCCESS_TAGS, WARNING_TAGS
+6 | | from .forms import UserRegistrationForm
+  | |_______________________________________^
+  |
+help: Organize imports
+
+E501 Line too long (91 > 88)
+  --> pollme/settings.py:91:89
+   |
+89 | AUTH_PASSWORD_VALIDATORS = [
+90 |     {
+91 |         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+   |                                                                                         ^^^
+92 |     },
+93 |     {
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> pollme/urls.py:16:1
+   |
+14 |       2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+15 |   """
+16 | / from django.contrib import admin
+17 | | from django.urls import path, include
+18 | | from . import views
+   | |___________________^
+19 |
+20 |   urlpatterns = [
+   |
+help: Organize imports
+
+W292 [*] No newline at end of file
+ --> pollme/views.py:5:39
+  |
+4 | def home(request):
+5 |     return render(request,'home.html')
+  |                                       ^
+  |
+help: Add trailing newline
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> polls/admin.py:1:1
+  |
+1 | / from django.contrib import admin
+2 | | from .models import Poll, Choice, Vote
+  | |______________________________________^
+  |
+help: Organize imports
+
+E501 Line too long (89 > 88)
+ --> polls/admin.py:5:89
+  |
+5 | class ChoiceInline(admin.TabularInline):  # or admin.StackedInline for a different layout
+  |                                                                                         ^
+6 |     model = Choice
+7 |     extra = 1
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> polls/forms.py:1:1
+  |
+1 | / from django import forms
+2 | | from .models import Poll, Choice
+  | |________________________________^
+  |
+help: Organize imports
+
+E501 Line too long (91 > 88)
+  --> polls/forms.py:16:89
+   |
+14 |         fields = ['text', 'choice1', 'choice2']
+15 |         widgets = {
+16 |             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'cols': 20}),
+   |                                                                                         ^^^
+17 |         }
+   |
+
+E501 Line too long (91 > 88)
+  --> polls/forms.py:25:89
+   |
+23 |         fields = ['text', ]
+24 |         widgets = {
+25 |             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'cols': 20}),
+   |                                                                                         ^^^
+26 |         }
+   |
+
+SIM103 Return the condition `not qs.exists()` directly
+  --> polls/models.py:21:9
+   |
+19 |           user_votes = user.vote_set.all()
+20 |           qs = user_votes.filter(poll=self)
+21 | /         if qs.exists():
+22 | |             return False
+23 | |         return True
+   | |___________________^
+24 |
+25 |       @property
+   |
+help: Replace with `return not qs.exists()`
+
+E501 Line too long (95 > 88)
+  --> polls/models.py:76:89
+   |
+75 |     def __str__(self):
+76 |         return f'{self.poll.text[:15]} - {self.choice.choice_text[:15]} - {self.user.username}'
+   |                                                                                         ^^^^^^^
+   |
+
+F401 [*] `django.utils.timezone` imported but unused
+ --> polls/tests.py:4:26
+  |
+2 | from django.contrib.auth.models import User
+3 | from django.test import TestCase
+4 | from django.utils import timezone
+  |                          ^^^^^^^^
+5 |
+6 | from .models import Poll, Vote
+  |
+help: Remove unused import: `django.utils.timezone`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> polls/urls.py:1:1
+  |
+1 | / from django.urls import path
+2 | | from . import views
+  | |___________________^
+3 |
+4 |   app_name = "polls"
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> polls/views.py:1:1
+  |
+1 | / from django.shortcuts import render, get_object_or_404, redirect
+2 | | from django.contrib.auth.decorators import login_required
+3 | | from django.core.paginator import Paginator
+4 | | from django.db.models import Count
+5 | | from django.contrib import messages
+6 | | from pollme.messages import SUCCESS_TAGS, WARNING_TAGS
+7 | | from .models import Poll, Choice, Vote
+8 | | from .forms import PollAddForm, EditPollForm, ChoiceAddForm
+9 | | from django.http import HttpResponse
+  | |____________________________________^
+  |
+help: Organize imports
+
+E501 Line too long (91 > 88)
+  --> polls/views.py:73:89
+   |
+72 |                 messages.success(
+73 |                     request, "Poll & Choices added successfully.", extra_tags=SUCCESS_TAGS)
+   |                                                                                         ^^^
+74 |
+75 |                 return redirect('polls:list')
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> seeder.py:1:1
+  |
+1 | / from polls.models import Choice, Poll, Vote
+2 | | from django.contrib.auth.models import User
+3 | | import datetime
+4 | | import random
+5 | | import time
+6 | | from faker import Faker
+  | |_______________________^
+7 |   fake = Faker()
+  |
+help: Organize imports
+
+F841 Local variable `u` is assigned to but never used
+  --> seeder.py:21:9
+   |
+19 |         first_name = fake.first_name()
+20 |         last_name = fake.last_name()
+21 |         u = User.objects.create_user(
+   |         ^
+22 |             first_name=first_name,
+23 |             last_name=last_name,
+   |
+help: Remove assignment to unused variable `u`
+
+SIM113 Use `enumerate()` for index variable `count` in `for` loop
+  --> seeder.py:28:9
+   |
+26 |             password="password"
+27 |         )
+28 |         count += 1
+   |         ^^^^^^^^^^
+29 |         percent_complete = count / num_entries * 100
+30 |         print(
+   |
+
+F841 Local variable `c` is assigned to but never used
+  --> seeder.py:58:13
+   |
+56 |         num_choices = random.randrange(choice_min, choice_max + 1)
+57 |         for _ in range(num_choices):
+58 |             c = Choice(
+   |             ^
+59 |                 poll=p,
+60 |                 choice_text=fake.sentence()
+   |
+help: Remove assignment to unused variable `c`
+
+SIM113 Use `enumerate()` for index variable `count` in `for` loop
+  --> seeder.py:62:9
+   |
+60 |                 choice_text=fake.sentence()
+61 |             ).save()
+62 |         count += 1
+   |         ^^^^^^^^^^
+63 |         percent_complete = count / num_entries * 100
+64 |         print(
+   |
+
+F841 Local variable `v` is assigned to but never used
+  --> seeder.py:87:13
+   |
+85 |         choices = list(poll.choice_set.all())
+86 |         for user in users:
+87 |             v = Vote(
+   |             ^
+88 |                 user=user,
+89 |                 poll=poll,
+   |
+help: Remove assignment to unused variable `v`
+
+Found 27 errors.
+[*] 15 fixable with the `--fix` option (4 hidden fixes can be enabled with the `--unsafe-fixes` option).

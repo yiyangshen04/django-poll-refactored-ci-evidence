@@ -1,0 +1,26 @@
+Name                                             Stmts   Miss  Cover
+--------------------------------------------------------------------
+accounts/__init__.py                                 0      0   100%
+accounts/admin.py                                    1      0   100%
+accounts/apps.py                                     3      0   100%
+accounts/forms.py                                   27      2    93%
+accounts/migrations/__init__.py                      0      0   100%
+accounts/models.py                                   1      0   100%
+accounts/tests.py                                    1      1     0%
+accounts/urls.py                                     4      0   100%
+accounts/views.py                                   29     21    28%
+polls/__init__.py                                    0      0   100%
+polls/admin.py                                      22      0   100%
+polls/apps.py                                        3      0   100%
+polls/forms.py                                      19      0   100%
+polls/migrations/0001_initial.py                     8      0   100%
+polls/migrations/0002_auto_20231018_1318.py          5      0   100%
+polls/migrations/0003_vote_unique_user_poll.py       4      0   100%
+polls/migrations/__init__.py                         0      0   100%
+polls/models.py                                     43      4    91%
+polls/services.py                                   17      1    94%
+polls/tests.py                                      25     25     0%
+polls/urls.py                                        4      0   100%
+polls/views.py                                     148    118    20%
+--------------------------------------------------------------------
+TOTAL                                              364    172    53%

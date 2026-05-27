@@ -1,0 +1,16 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+exclude = [
+    ".venv",
+    "*/migrations/*",
+    "db.sqlite3",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "SIM", "B"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "pollme.settings"
+python_files = ["test_*.py"]
+testpaths = ["qa_tests"]

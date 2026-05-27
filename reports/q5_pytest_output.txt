@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.13.7, pytest-9.0.3, pluggy-1.6.0 -- /Users/hanson/Desktop/sqa/django_poll_refactored/.venv/bin/python3
+cachedir: .pytest_cache
+django: version: 4.2.30, settings: pollme.settings (from ini)
+rootdir: /Users/hanson/Desktop/sqa/django_poll_refactored
+configfile: pyproject.toml
+plugins: django-4.12.0, base-url-2.1.0, playwright-0.8.0
+collecting ... collected 5 items
+
+qa_tests/ui/test_create_poll.py::test_create_poll[chromium] PASSED       [ 20%]
+qa_tests/ui/test_double_vote_blocked.py::test_double_vote_blocked[chromium] PASSED [ 40%]
+qa_tests/ui/test_owner_deletes_choice.py::test_owner_deletes_choice[chromium] PASSED [ 60%]
+qa_tests/ui/test_register_then_login.py::test_register_then_login[chromium] PASSED [ 80%]
+qa_tests/ui/test_vote_increments_count.py::test_vote_increments_count[chromium] PASSED [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/django/conf/__init__.py:267
+  /Users/hanson/Desktop/sqa/django_poll_refactored/.venv/lib/python3.13/site-packages/django/conf/__init__.py:267: RemovedInDjango50Warning: The USE_L10N setting is deprecated. Starting with Django 5.0, localized formatting of data will always be enabled. For example Django will display numbers and dates using the format of the current locale.
+    warnings.warn(USE_L10N_DEPRECATED_MSG, RemovedInDjango50Warning)
+
+qa_tests/ui/test_create_poll.py::test_create_poll[chromium]
+qa_tests/ui/test_double_vote_blocked.py::test_double_vote_blocked[chromium]
+  /Users/hanson/Desktop/sqa/django_poll_refactored/polls/views.py:29: UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'polls.models.Poll'> QuerySet.
+    paginator = Paginator(all_polls, 6)  # Show 6 contacts per page
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 5 passed, 3 warnings in 3.84s =========================
